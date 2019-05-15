@@ -108,8 +108,6 @@
 <p>Created by: Tyson Baker, Jack Bradley, Chas Davis, Aaron Harvey, Julia Parsley</p>
 </article>
   </div>
-
-    </div>
   </body>
 </html>
 
