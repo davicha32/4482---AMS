@@ -1,0 +1,311 @@
+﻿@model AMS.Models.Asset
+
+
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<script defer src="~/js/ajax.js"></script>
+<script defer src="~/js/modals.js"></script>
+<script defer src="~/js/tableRow.js"></script>
+<script defer src="~/js/loan-asset.js"></script>
+
+
+<h2>Asset Number: @Html.DisplayFor(model => model.InventoryNumber)</h2>
+<div>
+    @{DateTime maxDate = new DateTime(9999, 12, 31, 23, 59, 59); }
+    @if (Model.DateArchived != maxDate)
+    {
+        <a asp-action="ArchivedAssets">Cancel</a><span> | </span>
+        <a asp-action="RestoreAsset" asp-route-id="@Model.ID">Restore Asset</a>
+        <div>
+            <br />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateArchived)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateArchived)
+                </dd>
+            </dl>
+        </div>
+    }
+    else
+    {
+        <a asp-action="Index">Cancel</a><span> | </span>
+        <a asp-action="Delete" asp-route-id="@Model.ID">Archive Asset</a>
+    }
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group" id="divStates">
+                <label asp-for="StateID" class="control-label">State</label>
+                <select asp-for="StateID" id="slStates" class="form-control"></select>
+                <button id="btnAddstate" type="button">Add A State</button>
+                <span asp-validation-for="StateID" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="divBrands">
+                <label asp-for="Model.Device.BrandID" class="control-label">Brand</label>
+                <select asp-for="Model.Device.BrandID" id="slBrands" class="form-control"></select>
+                <button id="btnAddbrand" type="button">Add A Brand</button>
+                <span asp-validation-for="Model.Device.BrandID" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="divDevices">
+                <label asp-for="Model.DeviceID" class="control-label">Device Type</label>
+                <select asp-for="Model.DeviceID" id="slDevices" class="form-control"></select>
+                <button id="btnAdddevice" type="button">Add A Device</button>
+                <span asp-validation-for="Model.DeviceID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" id="divModels">
+                <label asp-for="ModelID" class="control-label">Model</label>
+                <select asp-for="ModelID" id="slModels" class="form-control"></select>
+                <button id="btnAddmodel" type="button">Add A Model</button>
+                <span asp-validation-for="ModelID" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="divDatePurchased">
+                <label asp-for="DatePurchased" class="control-label">Date Purchased</label>
+                <input id="DatePurchasedPicker" type="text" asp-for="DatePurchased" class="form-control" value="@Model.DatePurchased" />
+                <span asp-validation-for="DatePurchased" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="divWarrantyExpiration">
+                <label asp-for="DateWarrantyExpires" class="control-label">Warranty Expiration Date</label>
+                <input id="DateDuePicker" type="text" asp-for="DateWarrantyExpires" class="form-control" value="@Model.DateWarrantyExpires" />
+                <span asp-validation-for="DateWarrantyExpires" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="divLocations">
+                <label asp-for="LocationID" class="control-label">Location</label>
+                <select asp-for="LocationID" id="slLocations" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                @if (ViewBag.LoanedAsset != null)
+                {
+                    <div class="checkbox">
+                            <input asp-for="IsLoanable" hidden checked/>
+                    </div>
+                    <div>
+                        <label>Loaned to:</label>
+                        <table class="table" id="editItem" data-action="edit" data-object="User">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        First Name
+                                    </th>
+                                    <th>
+                                        Last Name
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Expected Return
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr data-id="@ViewBag.LoanedAsset.User.ID">
+                                    <td>
+                                        @ViewBag.LoanedAsset.User.FirstName
+                                    </td>
+                                    <td>
+                                        @ViewBag.LoanedAsset.User.LastName
+                                    </td>
+                                    <td>
+                                        @ViewBag.LoanedAsset.User.Email
+                                    </td>
+                                    <td>
+                                        @ViewBag.LoanedAsset.DateExpectedReturn
+                                    </td>
+                                    <td>
+                                        <button type="button" data-id="@Model.ID" class="btnReturnAsset" data-action="return" data-object="Asset">Return</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="IsLoanable" /> @Html.DisplayNameFor(model => model.IsLoanable)
+                        </label>
+                        @if (Model.IsLoanable == true && Model.DateArchived == maxDate)
+                        {
+                            <button type="button" data-id="@Model.ID" class="btnLoanAsset" data-action="loan" data-object="Asset">Loan</button>
+                        }
+                    </div>
+                }
+
+            </div>
+            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="InventoryNumber" />
+            <input type="hidden" asp-for="DatePurchased" />
+            <input type="hidden" asp-for="DateArchived" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+        <input type="hidden" id="hdModelID" value="@Model.ModelID" />
+        <input type="hidden" id="hdDeviceID" value="@Model.Model.DeviceID" />
+        <input type="hidden" id="hdBrandID" value="@Model.Model.Device.BrandID" />
+        <input type="hidden" id="hdStateID" value="@Model.StateID" />
+        <input type="hidden" id="hdLocationID" value="@Model.LocationID" />
+
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="brandModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add a Brand</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="Create">
+                            <div class="form-group">
+                                <label asp-for="Model.Device.Brand.Name" class="control-label"></label>
+                                <input id="brandName" name="brandName" class="form-control" />
+                            </div>
+                            <button type="button" id="btnSubmitbrandModal" class="btn btn-default">Add</button>
+                            <button type="button" id="btnClosebrandModal" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" id="deviceModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add a device</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="Create">
+                            <div class="form-group">
+                                <label asp-for="Model.Device.Name" class="control-label"></label>
+                                <input id="deviceName" name="deviceName" class="form-control" />
+                                <input type="hidden" name="brandID" asp-for="Model.Device.BrandID" class="form-control" />
+                            </div>
+                            <button type="button" id="btnSubmitdeviceModal" class="btn btn-default">Add</button>
+                            <button type="button" id="btnClosedeviceModal" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" id="modelModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add a model</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="Create">
+                            <div class="form-group">
+                                <label asp-for="Model.Name" class="control-label"></label>
+                                <input id="modelName" name="modelName" class="form-control" />
+                                <input type="hidden" name="modelID" asp-for="Model.Device.ID" class="form-control" />
+                            </div>
+                            <button type="button" id="btnSubmitmodelModal" class="btn btn-default">Add</button>
+                            <button type="button" id="btnClosemodelModal" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" id="stateModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add a state</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="Create">
+                            <div class="form-group">
+                                <label asp-for="State.Name" class="control-label"></label>
+                                <input id="stateName" name="stateName" class="form-control" />
+                            </div>
+                            <button type="button" id="btnSubmitstateModal" class="btn btn-default">Add</button>
+                            <button type="button" id="btnClosestateModal" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" id="locationModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add a location</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="Create">
+                            <div class="form-group">
+                                <label asp-for="Location.Name" class="control-label"></label>
+                                <input id="locationName" name="locationName" class="form-control" />
+                            </div>
+                            <button type="button" id="btnSubmitlocationModal" class="btn btn-default">Add</button>
+                            <button type="button" id="btnCloselocationModal" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(function () {
+            //            $("#slLocations").chosen({ search_contains: true });
+            $("#DateDuePicker").datetimepicker({
+                format: 'MM/DD/YYYY',
+                keepOpen: false,
+                showTodayButton: true
+            });
+            $("#DatePurchasedPicker").datetimepicker({
+                format: 'MM/DD/YYYY',
+                keepOpen: false,
+                showTodayButton: true
+            });
+        });
+    </script>
+}

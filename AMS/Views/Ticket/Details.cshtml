@@ -1,0 +1,148 @@
+﻿@model AMS.Models.Ticket
+
+@{
+    ViewData["Title"] = "Details";
+}
+<script defer src="~/js/tickets.js"></script>
+
+<h2>Ticket Number @Html.DisplayFor(model => model.Number)</h2>
+<div>
+    @{DateTime maxDate = new DateTime(9999, 12, 31, 23, 59, 59); }
+    @if (Model.DateResolved != maxDate)
+    {
+        <a asp-action="ResolvedTickets">Back to Resolved Tickets</a><span> | </span>
+        <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a>
+    }
+    else
+    {
+        <a asp-action="Index">Back to List</a><span> | </span>
+        <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a>
+    }
+</div>
+<section class="divContainer">
+    <div class="primaryDiv">
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Requestor
+            </dt>
+            <dd>
+                @ViewBag.UTR.User.FirstName @ViewBag.UTR.User.LastName
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Category)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Category.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Status.Condition)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Subject)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Subject)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateDue)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateDue)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateLastUpdated)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateLastUpdated)
+            </dd>
+
+            @if (Model.DateResolved != maxDate)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateResolved)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateResolved)
+                </dd>
+            }
+        </dl>
+        @if (ViewBag.Assets.Count != 0)
+        {
+            <h3>Asset:</h3>
+            <div>
+                <table id="AssetTable">
+                    <tr>
+                        <th>Inventory Number</th>
+                        <th>Device Type</th>
+                    </tr>
+                    @foreach (Asset a in ViewBag.Assets)
+                    {
+                        <tr>
+                            <td>@a.InventoryNumber</td>
+                            <td>@a.Model.Device.Name</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+        }
+    </div>
+    <div class="secondaryDiv">
+        <form asp-action="Details">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <input id="btnNewNote" type="button" value="Add New Note" class="btn btn-default" />
+            <input type="hidden" name="TicketID" value="@Model.ID" />
+            <input type="hidden" id="userName" value="@ViewBag.UserName" />
+
+
+
+            <div class="wrap">
+                <table class="head">
+                    <tr>
+                        <td class="tdDateCreated">Date Created</td>
+                        <td class="tdUserFirstName">User</td>
+                        <td class="tdNote">Note</td>
+                    </tr>
+                </table>
+                <div class="inner_table">
+                    <table id="tblNotes">
+                        @if (ViewBag.Notes.Count != 0)
+                        {
+                            foreach (Note n in ViewBag.Notes)
+                            {
+                                <tr>
+                                    <td class="tdDateCreated">@n.DateCreated</td>
+                                    <td class="tdUserFirstName">@n.User.FirstName</td>
+                                    <td class="tdNote"><textarea class="readOnlyNote" readonly>@n.Description</textarea></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>No Note</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

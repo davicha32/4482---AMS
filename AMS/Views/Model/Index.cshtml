@@ -1,0 +1,55 @@
+﻿@model IEnumerable<AMS.Models.Model>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Models</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table" id="editItems" data-action="Edit" data-object="Model">
+    <thead>
+        <tr>
+            <th>
+                Model Name
+            </th>
+            <th>
+                Device Type
+            </th>
+            <th>
+                Brand
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr data-id="@item.ID">
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Device.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Device.Brand.Name)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-area="" asp-controller="Model" asp-action="ArchivedModels">Archived Model</a>
+
+<script defer src="~/js/tableRow.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+        });
+    </script>
+}

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<AMS.Models.State>
+
+@{
+    ViewData["Title"] = "Archived States";
+}
+
+<h2>Archived States</h2>
+
+<table class="table" id="editItems" data-action="Edit" data-object="/State">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.ID">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-area="" asp-controller="State" asp-action="Index">Active States</a>
+
+<script defer src="~/js/tableRow.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+        });
+    </script>
+}

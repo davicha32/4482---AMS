@@ -1,0 +1,53 @@
+﻿@model AMS.Models.User
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+
+<div class="container">
+    <div class="logInInfo">
+        <h2>Welcome to AMS</h2>
+        <p>
+            AMS stands for, Asset Management System, and was created to help track and manage your businesses' assets and tickets.
+            The team that developed AMS was tasked with creating a system that tracked both assets and tickets, our customer felt their wasn't anything on the open
+            source market. We set out to accomplish this task by creating AMS, which
+            we feel has captured both of these requirements in an easy, simple to use system. We hope you enjoy using AMS
+            to help improve ticket resolution and asset management in your business world.
+        </p>
+    </div>
+
+
+
+    @*Login form to login into the site
+        This code was taken from Jon Holmes PeerVal project for his login form*@
+
+    <div class="logInForm">
+        <h3>Please log into AMS</h3>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-controller="Login" asp-action="Login" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input type="hidden" name="loggedIn" value="true" />
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" id="logIn"/>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" type="password" class="form-control" id="logIn"/>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input id="btnLogin" type="submit" value="Login" class="btn btn-default" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/site.js"></script>

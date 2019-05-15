@@ -1,0 +1,208 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+/*.divContainer{
+    margin: auto;
+    width: 100%;
+}
+
+.primaryDiv {
+    height: 200px;
+    width: 50%;
+    float: left;
+}
+
+.secondaryDiv {
+    float: left;
+    width: 50%;
+    height: 200px;
+}
+
+#noteSubmit{
+    margin: 0;
+    padding: 0;
+}*/
+
+.newNote, .readOnlyNote {
+    height: 1.5em;
+    transition: all 0.5s ease;
+    resize: none;
+    overflow: hidden;
+    border: none;
+    width: 100%;
+    overflow: hidden;
+}
+
+    .readOnlyNote:focus, .newNote:focus {
+        height: 5em;
+        overflow-y: scroll;
+    }
+
+        /*Found .readOnlyNote:focus::-webkit-scrollbar stuff at: http://jsfiddle.net/4xMUB/2/ */
+        .readOnlyNote:focus::-webkit-scrollbar, .newNote:focus::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .readOnlyNote:focus::-webkit-scrollbar-track, .newNote:focus::-webkit-scrollbar {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+
+        .readOnlyNote:focus::-webkit-scrollbar-thumb, .newNote:focus::-webkit-scrollbar {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+        }
+
+.wrap {
+    width: 50em;
+}
+
+    .wrap table {
+        width: 300px;
+        table-layout: fixed;
+    }
+
+table tr td {
+    padding: 5px;
+    width: 100px;
+    border-top: 1px solid #ddd;
+    word-wrap: break-word;
+}
+
+
+table.head tr td {
+    color: #337ab7;
+    font-weight:bold;
+}
+
+.inner_table {
+    height: 20em;
+    overflow-y: auto;
+}
+
+    /*Found .inner_table::-webkit-scrollbar stuff at: http://jsfiddle.net/4xMUB/2/ */
+    .inner_table::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    .inner_table::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 10px;
+    }
+
+    .inner_table::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    }
+
+.tdDateCreated {
+    width: 13em;
+}
+
+.tdUserFirstName {
+    width: 10em;
+}
+.tdNote {
+    width: 25em;
+    word-wrap: break-word;
+}
+
+table tr:hover td {
+    /*background-color: #FF00FF;*/
+    background-color: #B8B8B8;
+    cursor: pointer;
+}
+
+.mynav_navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.mynav_dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+    .mynav_dropdown .mynav_dropbtn {
+        font-size: 16px;
+        border: none;
+        outline: none;
+        color: white;
+        padding: 14px 16px;
+        background-color: inherit;
+        font-family: inherit;
+        margin: 0;
+    }
+
+    .mynav_navbar a:hover, .mynav_dropdown:hover .mynav_dropbtn {
+        background-color: #B8B8B8;
+        color: black;
+    }
+
+.mynav_dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+    .mynav_dropdown-content a {
+        float: none;
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
+
+.mynav_dropdown-content a:hover {
+            background-color: #B8B8B8;
+        }
+
+.mynav_dropdown:hover .mynav_dropdown-content {
+    display: block;
+}
+
+.mynav_navbar .logoutButton {
+    float:right;
+}
+
+.logInInfo {
+    float: left;
+    width: 40%;
+    padding-top: 50px;
+}
+
+.logInForm {
+    /*float: right;*/
+    padding-top: 50px;
+    padding-left: 50%;
+}
+
+#logIn {
+    width: 150%;
+}
+
+
+
+
+.chosen-search-input{
+    color: red;
+    background-color: orange;
+}

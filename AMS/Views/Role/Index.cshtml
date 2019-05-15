@@ -1,0 +1,271 @@
+﻿@model IEnumerable<AMS.Models.Role>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>User Roles</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table id="editItems" class="table roleTable" data-action="Edit" data-object="Role">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketsView)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketsComment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketsResolve)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketsOpen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketsEdit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssetsView)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssetsAdd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssetsEdit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssetsArchive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersView)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersAdd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersEdit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersDisable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RolesView)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeleteAsset)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr data-id="@item.ID">
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            
+            @if (item.TicketsView == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.TicketsComment == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.TicketsResolve == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.TicketsOpen == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.TicketsEdit == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.AssetsView == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.AssetsAdd == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.AssetsEdit == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.AssetsArchive == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.UsersView == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.UsersAdd == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.UsersEdit == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.UsersDisable == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.RolesView == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            @if (item.DeleteAsset == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script defer src="~/js/tableRow.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            $(".colSearch").css("width","4em");
+        });
+    </script>
+}

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<AMS.Models.Brand>
+
+@{
+    ViewData["Title"] = "Archived Brands";
+}
+
+<h2>Archived Brands</h2>
+
+<table class="table" id="editItems" data-action="Edit" data-object="/Brand">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.ID">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-area="" asp-controller="Brand" asp-action="Index">Active Brands</a>
+
+<script defer src="~/js/tableRow.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+        });
+    </script>
+}

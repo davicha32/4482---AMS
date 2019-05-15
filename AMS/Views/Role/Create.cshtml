@@ -1,0 +1,153 @@
+﻿@model AMS.Models.Role
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Role</h2>
+
+<div>
+    <a asp-action="Index">Cancel</a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
+                </label>
+            </div>
+        </div>*@
+            @*<div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input asp-for="IsTechnician" /> @Html.DisplayNameFor(model => model.IsTechnician)
+                </label>
+            </div>
+        </div>*@
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="TicketsView" /> @Html.DisplayNameFor(model => model.TicketsView)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="TicketsComment" /> @Html.DisplayNameFor(model => model.TicketsComment)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="TicketsResolve" /> @Html.DisplayNameFor(model => model.TicketsResolve)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="TicketsOpen" /> @Html.DisplayNameFor(model => model.TicketsOpen)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="TicketsEdit" /> @Html.DisplayNameFor(model => model.TicketsEdit)
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AssetsView" /> @Html.DisplayNameFor(model => model.AssetsView)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AssetsAdd" /> @Html.DisplayNameFor(model => model.AssetsAdd)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AssetsEdit" /> @Html.DisplayNameFor(model => model.AssetsEdit)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AssetsArchive" /> @Html.DisplayNameFor(model => model.AssetsArchive)
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="UsersView" /> @Html.DisplayNameFor(model => model.UsersView)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="UsersAdd" /> @Html.DisplayNameFor(model => model.UsersAdd)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="UsersEdit" /> @Html.DisplayNameFor(model => model.UsersEdit)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="UsersDisable" /> @Html.DisplayNameFor(model => model.UsersDisable)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input asp-for="RolesView" /> @Html.DisplayNameFor(model => model.RolesView)
+                </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="DeleteAsset" /> @Html.DisplayNameFor(model => model.DeleteAsset)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

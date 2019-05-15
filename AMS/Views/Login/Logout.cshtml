@@ -1,0 +1,16 @@
+﻿@model AMS.Models.User
+
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<h2>Login</h2>
+@*Login form to login into the site
+    This code was taken from Jon Holmes PeerVal project for his login form*@
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Login" asp-action="Logout" method="get">
+        </form>
+    </div>
+</div>

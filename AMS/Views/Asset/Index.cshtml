@@ -1,0 +1,113 @@
+﻿@model IEnumerable<AMS.Models.Asset>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Assets</h2>
+
+<table id="editItems" class="table" data-action="Edit" data-object="Asset">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InventoryNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model.Device.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model.Device.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DatePurchased)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateWarrantyExpires)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsLoanable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsLoaned)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr data-id="@item.ID">
+            <td>
+                @Html.DisplayFor(modelItem => item.InventoryNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model.Device.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model.Device.Brand.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DatePurchased)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateWarrantyExpires)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location.Name)
+            </td>
+            @if (item.IsLoanable == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+
+            @if (item.IsLoaned == true)
+            {
+                <td>
+                    True
+                </td>
+            }
+            else
+            {
+                <td>
+                    False
+                </td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-area="" asp-controller="Asset" asp-action="ArchivedAssets">Archived Assets</a>
+<script defer src="~/js/tableRow.js"></script>
+<script defer src="~/js/loan-asset.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+        });
+    </script>
+}

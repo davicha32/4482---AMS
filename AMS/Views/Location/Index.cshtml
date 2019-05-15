@@ -1,0 +1,52 @@
+﻿@model IEnumerable<AMS.Models.Location>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Locations</h2>
+
+<table class="table" id="editItems" data-action="Edit" data-object="Location">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                State
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.ParentLocationID)
+            </th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.ID">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State.Name)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.ParentLocationID)
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-area="" asp-controller="Location" asp-action="ArchivedLocations">Archived Locations</a>
+
+<script defer src="~/js/tableRow.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+        });
+    </script>
+}

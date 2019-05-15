@@ -1,0 +1,176 @@
+﻿@model AMS.Models.Ticket
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<script defer src="~/js/tickets.js"></script>
+<script defer src="~/js/ajax.js"></script>
+
+
+@* <h4>Ticket</h4> *@
+<h2>Ticket Number: @Html.DisplayFor(model => model.Number)</h2>
+<div>
+    @{DateTime maxDate = new DateTime(9999, 12, 31, 23, 59, 59); }
+    @if (Model.DateResolved != maxDate)
+    {
+        <a asp-action="ResolvedTickets">Cancel</a>
+        <div>
+            <br />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateResolved)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateResolved)
+                </dd>
+            </dl>
+        </div>
+    }
+    else
+    {
+        <a asp-action="Index">Cancel</a>
+    }
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <dl class="dl-horizontal">
+            <dt>
+                Requestor
+            </dt>
+            <dd>
+                @ViewBag.UTR.User.FirstName @ViewBag.UTR.User.LastName
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateDue)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateDue)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateLastUpdated)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateLastUpdated)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Status.Condition)
+            </dd>
+
+            @if (Model.DateResolved != maxDate)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateResolved)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateResolved)
+                </dd>
+            }
+        </dl>
+        <form asp-action="Edit">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group" id="divStatuses">
+                <label asp-for="StatusID" class="control-label"></label>
+                <select asp-for="StatusID" id="slStatuses" class="form-control">
+                    <option selected disabled hidden>-Select One-</option>
+                </select>
+                <span asp-validation-for="StatusID" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="divCategories">
+                <label asp-for="CategoryID" class="control-label"></label>
+                <select asp-for="CategoryID" id="slCategories" class="form-control">
+                    <option selected disabled hidden>-Select One-</option>
+                </select>
+                <span asp-validation-for="CategoryID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subject" class="control-label"></label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea rows="10" asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateDue" class="control-label"></label>
+                <input id="DateDuePicker" type="text" asp-for="DateDue" class="form-control"
+                       value="@Model.DateDue"/>
+                <span asp-validation-for="DateDue" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Asset:</label>
+                @if (ViewBag.TicketAssets.Count != 0)
+                {
+                    @*<h3>Asset:</h3>*@
+                    <div>
+                        <table id="AssetTable">
+                            <tr>
+                                <th>Inventory Number</th>
+                                <th>Device Type</th>
+                            </tr>
+                            @foreach (Asset a in ViewBag.TicketAssets)
+                            {
+                                <tr>
+                                    <td>@a.InventoryNumber</td>
+                                    <td>@a.Model.Device.Name</td>
+                                    @if (ViewBag.CurrentUserDeleteAsset)
+                                    {
+                                        <td><input id="@a.ID" type="button" value="Remove" class="btn btn-default"/></td>
+                                    }
+                                </tr>
+                            }
+                        </table>
+                    </div>
+
+                }
+
+                    <div class="form-group" id="divAssets">
+                        <select id="slAssets" name="Asset" class="form-control" asp-items="ViewBag.Assets" multiple></select>
+                    </div>
+            </div>
+            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="Number" />
+            <input type="hidden" asp-for="DateCreated" />
+            <input type="hidden" asp-for="DateResolved" />
+            <input type="hidden" name="AssetsToRemove" id="AssetsToRemove" />
+            <input type="hidden" name="AssetsToAdd" id="AssetsToAdd" />
+
+            <div class="form-group">
+                <hr></hr>
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+        <input type="hidden" id="hdStatusID" value="@Model.StatusID" />
+        <input type="hidden" id="hdCategoryID" value="@Model.CategoryID" />
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(function () {
+            //$("#slStatuses").chosen({ search_contains: true });
+            //$("#slCategories").chosen({ search_contains: true });
+            $("#slAssets").chosen({ search_contains: true });
+            $("#DateDuePicker").datetimepicker({
+                format: 'MM/DD/YYYY',
+                keepOpen: false,
+                showTodayButton: true
+            });
+        });
+    </script>
+}
+
+

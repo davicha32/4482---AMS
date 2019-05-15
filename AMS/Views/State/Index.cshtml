@@ -1,0 +1,44 @@
+﻿@model IEnumerable<AMS.Models.State>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>States</h2>
+<h3>Available to Assets and Locations</h3>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table" id="editItems" data-action="Edit" data-object="State">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.ID">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-area="" asp-controller="State" asp-action="ArchivedStates">Archived States</a>
+
+<script defer src="~/js/tableRow.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+        });
+    </script>
+}

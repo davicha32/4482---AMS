@@ -1,0 +1,147 @@
+﻿@model AMS.Models.User
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<script defer src="~/js/tableRow.js"></script>
+
+<h2>User: @Html.DisplayFor(model => model.Email)</h2>
+
+<div>
+    @{DateTime maxDate = new DateTime(9999, 12, 31, 23, 59, 59); }
+    @if (Model.DateDisabled != maxDate)
+    {
+        <a asp-action="DisabledUsers">Back to Disabled Users</a><span> | </span>
+        <a asp-action="Reset" asp-route-id="@Model.ID">Reset Password</a><span> | </span>
+        <a asp-action="RestoreUser" asp-route-id="@Model.ID">Restore User</a>
+        <div>
+            <br />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateDisabled)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateDisabled)
+                </dd>
+            </dl>
+        </div>
+    }
+    else
+    {
+        <a asp-action="Index">Cancel</a><span> | </span>
+        <a asp-action="Reset" asp-route-id="@Model.ID">Reset Password</a><span> | </span>
+        <a asp-action="Delete" asp-route-id="@Model.ID">Disable User</a>
+    }
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+                @*</div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>*@
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                @if (Model.ID != ViewBag.CurrentUserID)
+                {
+                    <div class="form-group">
+                        <label asp-for="RoleID" class="control-label">Role</label>
+                        <select asp-for="RoleID" class="form-control"
+                                asp-items="ViewBag.RoleID">
+                            <option selected disabled hidden>-Select One-</option>
+                        </select>
+                        <span asp-validation-for="RoleID" class="text-danger"></span>
+                    </div>
+                }
+                @if (ViewBag.LoanedAssets != null)
+                {
+                    <div id="divLoanedAssets">
+                        <label>Loaned Assets:</label>
+                        <table class="table" id="editItem" data-action="edit" data-object="Asset">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Inventory Number
+                                    </th>
+                                    <th>
+                                        Device
+                                    </th>
+                                    <th>
+                                        Expected Return
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (LoanedAsset item in ViewBag.LoanedAssets)
+                                {
+                                    <tr data-id="@item.Asset.ID" id="@item.Asset.ID">
+                                        <td>
+                                            @item.Asset.InventoryNumber
+                                        </td>
+                                        <td>
+                                            @item.Asset.Model.Device.Name
+                                        </td>
+                                        <td>
+                                            @item.DateExpectedReturn
+                                        </td>
+                                        <td>
+                                            <button type="button" data-id="@item.Asset.ID" class="btnReturnAsset" data-action="return" data-object="Asset">Return</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                <input type="hidden" asp-for="ID" />
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(".btnReturnAsset").click(function (e) {
+            $.ajax({
+                type: "Post",
+                url: "/Base/ReturnAsset",
+                data: { id: $(this).data("id") },
+                success: function (data) {
+                    var table = document.getElementById("editItem");
+
+                    document.getElementById(data).remove();
+
+                },
+                error: function () {
+                    alert("There was a problem with LoanedAssets");
+                }
+            });
+        });
+
+
+    </script>
+}
+
+

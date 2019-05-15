@@ -1,0 +1,98 @@
+﻿@model IEnumerable<AMS.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@*<div class="dashboardpanel1">
+@await Html.PartialAsync("_TicketQueue")
+</div>*@
+
+
+<h2>Queue</h2>
+
+    <table id="editItems" class="table" data-action="Details" data-object="Ticket">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateDue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateLastUpdated)
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.ID">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status.Condition)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateDue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateLastUpdated)
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+<a asp-area="" asp-controller="Ticket" asp-action="ResolvedTickets">Resolved Tickets</a>
+
+    <script defer src="~/js/tableRow.js"></script>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+        <script>
+            $(document).ready(function(){
+                $('<button>Search Ticket Number</button>')
+                    .appendTo( '.dataTables_filter' )
+                    .on( 'click', function () {
+                        window.location = "/Ticket/Details/"
+                            + $(".dataTables_filter input").val();
+                    } );
+                $(".dataTables_filter input").keypress(function(e) {
+                    var key = e.which;
+                    if (key == 13) {
+                        window.location = "/Ticket/Details/" + $(".dataTables_filter input").val();
+                    }
+                });
+            });
+        </script>
+    }

@@ -1,0 +1,81 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@{
+    ViewData["Title"] = "Unable to Delete";
+}
+
+<h1>Deletion Error.</h1>
+<h3>You cannot remove "@ViewBag.DeletionError" because it is currently associated with @ViewBag.ModelAssociation.</h3>
+<p>Please edit any of the following assigned to "@ViewBag.DeletionError" to continue.</p>
+
+@if (ViewBag.ActiveAssets != null)
+{
+<h4>Assets:</h4>
+    <ul>     
+
+        @foreach (Asset item in ViewBag.ActiveAssets)
+        {
+            <li><a asp-action="Edit" asp-controller="Asset" asp-route-id="@item.ID">@item.InventoryNumber</a></li>
+        }
+    </ul>
+
+        if (ViewBag.ActiveLocations != null)
+        {
+        <h4>Locations:</h4>
+            <ul>
+
+            @foreach (Location item in ViewBag.ActiveLocations)
+            {
+                <li><a asp-action="Edit" asp-controller="Location" asp-route-id="@item.ID">@item.Name</a></li>
+            }
+            </ul>
+        }
+}
+
+else if (ViewBag.ActiveModels != null)
+{
+    <h4>Models:</h4>
+    <ul>
+        @foreach (Model item in ViewBag.ActiveModels)
+        {
+            <li><a asp-action="Edit" asp-controller="Model" asp-route-id="@item.ID">@item.Name</a></li>
+        }
+    </ul>
+}
+
+else if (ViewBag.ActiveDevices != null)
+{
+    <h4>Devices:</h4>
+    <ul>
+        @foreach (Device item in ViewBag.ActiveDevices)
+        {
+            <li><a asp-action="Edit" asp-controller="Device" asp-route-id="@item.ID">@item.Name</a></li>
+        }
+    </ul>
+}
+
+else if (ViewBag.ActiveStates != null)
+{
+    <h4>States:</h4>
+    <ul>
+        @foreach (State item in ViewBag.ActiveStates)
+        {
+            <li><a asp-action="Edit" asp-controller="State" asp-route-id="@item.ID">@item.Name</a></li>
+        }
+    </ul>
+}
+
+else if (ViewBag.ActiveUsers != null)
+{
+    <h4>Users:</h4>
+    <ul>
+        @foreach (User item in ViewBag.ActiveUsers)
+        {
+            <li><a asp-action="Edit" asp-controller="User" asp-route-id="@item.ID">@item.Email</a></li>
+        }
+    </ul>
+}
+
+<a href="javascript:history.back()">Go Back</a>

@@ -1,0 +1,57 @@
+﻿@model AMS.Models.Device
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>@Html.DisplayFor(model => model.Name)</h2>
+<div>
+    @{DateTime maxDate = new DateTime(9999, 12, 31, 23, 59, 59); }
+    @if (Model.DateArchived != maxDate)
+    {
+        <a asp-action="ArchivedDevices">Back to Archived Devices</a><span> | </span>
+        <a asp-action="RestoreDevice" asp-route-id="@Model.ID">Restore Device Type</a>
+        <div>
+            <br />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateArchived)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateArchived)
+                </dd>
+            </dl>
+        </div>
+    }
+    else
+    {
+        <a asp-action="Index">Cancel</a><span> | </span>
+        <a asp-action="Delete" asp-route-id="@Model.ID">Archive Device Type</a>
+    }
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BrandID" class="control-label">Brand</label>
+                <select asp-for="BrandID" id="slBrands" class="form-control" asp-items="ViewBag.Brands">
+                    <option selected disabled hidden>-Select One-</option>
+                </select>
+                <span asp-validation-for="BrandID" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
